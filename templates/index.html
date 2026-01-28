@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <div class="page">
+        <div class="card">
+            <h1>Password Generator</h1>
+            <p class="subtitle">Create strong, customizable passwords in seconds.</p>
+
+            <form method="POST" class="form">
+                <div class="field-group">
+                    <label for="length">Number of characters</label>
+                    <input
+                        type="number"
+                        id="length"
+                        name="length"
+                        min="4"
+                        max="64"
+                        value="16"
+                    />
+                </div>
+
+                <div class="field-group inline">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="use_special" checked />
+                        <span>Include special characters</span>
+                    </label>
+                </div>
+
+                <div class="field-group inline">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="use_digits" checked />
+                        <span>Include numbers</span>
+                    </label>
+                </div>
+
+                <div class="field-group">
+                    <label for="phrase">Optional phrase to include</label>
+                    <input
+                        type="text"
+                        id="phrase"
+                        name="phrase"
+                        placeholder="e.g. MyDog, favWord, etc."
+                    />
+                    <small>
+                        The phrase will be inserted into the password and counts toward the total length.
+                    </small>
+                </div>
+
+                <button type="submit" class="btn-primary">Generate Password</button>
+            </form>
+
+            {% if password %}
+            <div class="result">
+                <label>Your generated password</label>
+                <div class="password-box">
+                    <span id="password-value">{{ password }}</span>
+                    <button
+                        type="button"
+                        class="btn-copy"
+                        onclick="copyPassword()"
+                    >
+                        Copy
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function copyPassword() {
+            const text = document.getElementById("password-value").innerText;
+            if (!text) return;
+
+            navigator.clipboard.writeText(text).then(
+                () => {
+                    alert("Password copied to clipboard.");
+                },
+                () => {
+                    alert("Failed to copy password.");
+                }
+            );
+        }
+    </script>
+</body>
+</html>
